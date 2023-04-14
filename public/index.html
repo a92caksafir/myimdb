@@ -190,7 +190,8 @@
       if (txtId.value.length > 0) {
         mRefDbMovies.update({ [txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value , [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value });
       } else {
-        mRefDbMovies.update({ [txtId.value]: { [txtId.value + "id"]: txtName.value, "name": $txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value , "year": txtYear.value, "genre": txtGenre.value } });
+        var newPostKey = firebase.database().ref().push().key;
+        mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value , "year": txtYear.value, "genre": txtGenre.value } });
       }
       document.getElementById("formSearch").style.display = "block";
       document.getElementById("formEdit").style.display = "none";
