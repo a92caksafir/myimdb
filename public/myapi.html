@@ -130,17 +130,12 @@
           mRefDbMovies = firebase.database().ref('/movies');
 
           let lParams = (new URL(document.location)).searchParams;
-          if (lParams.get("action") == "save") {
-            console.log("save");
+          if (lParams.get("action") == "add") {
+            console.log("add");
             if (lParams.get("id") == "input") {
-              if (lParams.get("id") == "input") {
-                mRefDbMovies.update({ [txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value, [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value });
-              } else {
                 var newPostKey = firebase.database().ref().push().key;
                 mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value, "year": txtYear.value, "genre": txtGenre.value } });
-              }
             }
-
           }
           else {
             console.log("no action");
