@@ -132,10 +132,8 @@
           let lParams = (new URL(document.location)).searchParams;
           if (lParams.get("action") == "add") {
             console.log("add");
-            if (lParams.get("id") == "input") {
-                var newPostKey = firebase.database().ref().push().key;
-                mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value, "year": txtYear.value, "genre": txtGenre.value } });
-            }
+            var newPostKey = firebase.database().ref().push().key;
+            mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "name": lParams.get("name") } });
           }
           else {
             console.log("no action");
