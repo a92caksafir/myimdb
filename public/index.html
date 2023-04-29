@@ -40,7 +40,10 @@
         <label>Search :</label>
         <input class="form-control" id="txtSearch" type="text" placeholder="Search..">
       </div>
-      <div id="divTable" class="table-responsive"></div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="divTable">
+        </table>
+      </div>
       <button type="button" class="btn btn-default" onclick="btnTambahOnClick()" id="btnTambah"><span
           class="glyphicon glyphicon-plus "></span>Tambah</button>
     </form>
@@ -140,22 +143,132 @@
 
     function generateTable(db) {
       text = "<table class='table table-bordered table-striped'>";
-      text += "<tr><th>Id</th><th>Name</th><th>Duration</th><th>Rating</th><th>Vote</th><th>Year</th><th>Genre</th></tr></thead>";
+      text += "<tr><th onclick='sortTable(0)'>Id</th><th onclick='sortTable(1)'>Name</th><th onclick='sortNumTable(2)'>Year</th><th onclick='sortNumTable(3)'>Duration</th><th onclick='sortNumTable(4)'>Rating</th><th onclick='sortNumTable(5)'>Vote</th><th onclick='sortTable(6)'>Genre</th></tr></thead>";
       text += "<tbody id='myTable'>";
       for (x in db) {
         text += "<tr>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].id + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].name + "</td>";
+        text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].year + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].duration + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].rating + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].vote + "</td>";
-        text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].year + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].genre + "</td>";
         text += "</tr>";
       }
       text += "</tbody>"
       text += "</table>"
       mTable.innerHTML = text;
+    }
+    
+    function sortTable(n) {
+      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+      table = document.getElementById("divTable");
+      switching = true;
+      //Set the sorting direction to ascending:
+      dir = "asc";
+      /*Make a loop that will continue until
+      no switching has been done:*/
+      while (switching) {
+        //start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /*Loop through all table rows (except the
+        first, which contains table headers):*/
+        for (i = 1; i < (rows.length - 1); i++) {
+          //start by saying there should be no switching:
+          shouldSwitch = false;
+          /*Get the two elements you want to compare,
+          one from current row and one from the next:*/
+          x = rows[i].getElementsByTagName("TD")[n];
+          y = rows[i + 1].getElementsByTagName("TD")[n];
+          /*check if the two rows should switch place,
+          based on the direction, asc or desc:*/
+          if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          /*If a switch has been marked, make the switch
+          and mark that a switch has been done:*/
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          //Each time a switch is done, increase this count by 1:
+          switchcount++;
+        } else {
+          /*If no switching has been done AND the direction is "asc",
+          set the direction to "desc" and run the while loop again.*/
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+
+    function sortNumTable(n) {
+      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+      table = document.getElementById("divTable");
+      switching = true;
+      //Set the sorting direction to ascending:
+      dir = "asc";
+      /*Make a loop that will continue until
+      no switching has been done:*/
+      while (switching) {
+        //start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /*Loop through all table rows (except the
+        first, which contains table headers):*/
+        for (i = 1; i < (rows.length - 1); i++) {
+          //start by saying there should be no switching:
+          shouldSwitch = false;
+          /*Get the two elements you want to compare,
+          one from current row and one from the next:*/
+          x = rows[i].getElementsByTagName("TD")[n];
+          y = rows[i + 1].getElementsByTagName("TD")[n];
+          /*check if the two rows should switch place,
+          based on the direction, asc or desc:*/
+          if (dir == "asc") {
+            if (Number(x.innerHTML) > Number(y.innerHTML)) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (Number(x.innerHTML) < Number(y.innerHTML)) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          /*If a switch has been marked, make the switch
+          and mark that a switch has been done:*/
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          //Each time a switch is done, increase this count by 1:
+          switchcount++;
+        } else {
+          /*If no switching has been done AND the direction is "asc",
+          set the direction to "desc" and run the while loop again.*/
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
     }
 
     function tableonclick(id) {
