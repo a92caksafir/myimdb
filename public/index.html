@@ -314,10 +314,10 @@
 
     function btnSimpanOnClick() {
       if (txtId.value.length > 0) {
-        mRefDbMovies.update({ [txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value, [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value });
+        mRefDbMovies.update({ [txtId.value + "/sinkm"]: 1,[txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value, [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value });
       } else {
         var newPostKey = firebase.database().ref().push().key;
-        mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value, "year": txtYear.value, "genre": txtGenre.value } });
+        mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "sinkm": 1, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value, "year": txtYear.value, "genre": txtGenre.value } });
       }
       document.getElementById("formSearch").style.display = "block";
       document.getElementById("formEdit").style.display = "none";
