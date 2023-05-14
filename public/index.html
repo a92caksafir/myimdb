@@ -77,6 +77,18 @@
         <label for="weight">Genre:</label>
         <input class="form-control" id="txtGenre">
       </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + ',')" id="btnKoma">,</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'action')" id="btnAction">Action</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'adventure')" id="btnAdventure">Adventure</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'comedy')" id="btnComedy">Comedy</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'animation')" id="btnAnimation">Animation</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'family')" id="btnFamily">Family</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'scifi')" id="btnScifi">Scifi</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'fantasy')" id="btnFantasy">Fantasy</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'drama')" id="btnDrama">Drama</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'romance')" id="btnRomance">Romance</button>
+      </div>
       <button type="button" class="btn btn-default" onclick="btnSimpanOnClick()" id="btnSimpan">Simpan</button>
       <button type="button" class="btn btn-default" onclick="btnHapusOnClick()" id="btnHapus">Hapus</button>
     </form>
@@ -161,7 +173,7 @@
       text += "</table>"
       mTable.innerHTML = text;
     }
-    
+
     function sortTable(n) {
       var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
       table = document.getElementById("divTable");
@@ -302,10 +314,10 @@
 
     function btnSimpanOnClick() {
       if (txtId.value.length > 0) {
-        mRefDbMovies.update({ [txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value , [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value });
+        mRefDbMovies.update({ [txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value, [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value });
       } else {
         var newPostKey = firebase.database().ref().push().key;
-        mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value , "year": txtYear.value, "genre": txtGenre.value } });
+        mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value, "year": txtYear.value, "genre": txtGenre.value } });
       }
       document.getElementById("formSearch").style.display = "block";
       document.getElementById("formEdit").style.display = "none";
