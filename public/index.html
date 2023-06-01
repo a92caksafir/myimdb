@@ -49,10 +49,7 @@
           class="glyphicon glyphicon-plus "></span>Tambah</button>
     </form>
     <form class="form-horizontal" id="formEdit" style="display: none;">
-      <div class="form-group">
-        <label for="name">Id:</label>
-        <input class="form-control" id="txtId">
-      </div>
+      <input type="hidden" id="txtId">
       <div class="form-group">
         <label for="name">Nama:</label>
         <input class="form-control" id="txtName">
@@ -160,11 +157,10 @@
 
     function generateTable(db) {
       text = "<table class='table table-bordered table-striped'>";
-      text += "<tr><th onclick='sortTable(0)'>Id</th><th onclick='sortTable(1)'>Name</th><th onclick='sortNumTable(2)'>Year</th><th onclick='sortNumTable(3)'>Duration</th><th onclick='sortNumTable(4)'>Rating</th><th onclick='sortNumTable(5)'>Vote</th><th onclick='sortTable(6)'>Genre</th></tr></thead>";
+      text += "<tr><th onclick='sortTable(1)'>Name</th><th onclick='sortNumTable(2)'>Year</th><th onclick='sortNumTable(3)'>Duration</th><th onclick='sortNumTable(4)'>Rating</th><th onclick='sortNumTable(5)'>Vote</th><th onclick='sortTable(6)'>Genre</th></tr></thead>";
       text += "<tbody id='myTable'>";
       for (x in db) {
         text += "<tr>";
-        text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].id + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].name + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].year + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].duration + "</td>";
