@@ -23,6 +23,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" type="image/png" href="firebase.ico">
 </head>
 
 <!-- --------------------------------------------------------------------------------------------- -->
@@ -40,15 +41,15 @@
         <label>Search :</label>
         <input class="form-control" id="txtSearch" type="text" placeholder="Search..">
       </div>
-      <div id="divTable" class="table-responsive"></div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="divTable">
+        </table>
+      </div>
       <button type="button" class="btn btn-default" onclick="btnTambahOnClick()" id="btnTambah"><span
           class="glyphicon glyphicon-plus "></span>Tambah</button>
     </form>
     <form class="form-horizontal" id="formEdit" style="display: none;">
-      <div class="form-group">
-        <label for="name">Id:</label>
-        <input class="form-control" id="txtId">
-      </div>
+      <input type="hidden" id="txtId">
       <div class="form-group">
         <label for="name">Nama:</label>
         <input class="form-control" id="txtName">
@@ -72,6 +73,22 @@
       <div class="form-group">
         <label for="weight">Genre:</label>
         <input class="form-control" id="txtGenre">
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + ',')" id="btnKoma">,</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'action')" id="btnAction">Action</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'adventure')" id="btnAdventure">Adventure</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'comedy')" id="btnComedy">Comedy</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'animation')" id="btnAnimation">Animation</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'family')" id="btnFamily">Family</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'scifi')" id="btnScifi">Scifi</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'fantasy')" id="btnFantasy">Fantasy</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'drama')" id="btnDrama">Drama</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'romance')" id="btnRomance">Romance</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'biography')" id="btnBiography">Biography</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'thriller')" id="btnThriller">Thriller</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'mistery')" id="btnMistery">Mistery</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'crime')" id="btnCrime">Crime</button>
       </div>
       <button type="button" class="btn btn-default" onclick="btnSimpanOnClick()" id="btnSimpan">Simpan</button>
       <button type="button" class="btn btn-default" onclick="btnHapusOnClick()" id="btnHapus">Hapus</button>
@@ -140,22 +157,131 @@
 
     function generateTable(db) {
       text = "<table class='table table-bordered table-striped'>";
-      text += "<tr><th>Id</th><th>Name</th><th>Duration</th><th>Rating</th><th>Vote</th><th>Year</th><th>Genre</th></tr></thead>";
+      text += "<tr><th onclick='sortTable(1)'>Name</th><th onclick='sortNumTable(2)'>Year</th><th onclick='sortNumTable(3)'>Duration</th><th onclick='sortNumTable(4)'>Rating</th><th onclick='sortNumTable(5)'>Vote</th><th onclick='sortTable(6)'>Genre</th></tr></thead>";
       text += "<tbody id='myTable'>";
       for (x in db) {
         text += "<tr>";
-        text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].id + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].name + "</td>";
+        text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].year + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].duration + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].rating + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].vote + "</td>";
-        text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].year + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].genre + "</td>";
         text += "</tr>";
       }
       text += "</tbody>"
       text += "</table>"
       mTable.innerHTML = text;
+    }
+
+    function sortTable(n) {
+      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+      table = document.getElementById("divTable");
+      switching = true;
+      //Set the sorting direction to ascending:
+      dir = "asc";
+      /*Make a loop that will continue until
+      no switching has been done:*/
+      while (switching) {
+        //start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /*Loop through all table rows (except the
+        first, which contains table headers):*/
+        for (i = 1; i < (rows.length - 1); i++) {
+          //start by saying there should be no switching:
+          shouldSwitch = false;
+          /*Get the two elements you want to compare,
+          one from current row and one from the next:*/
+          x = rows[i].getElementsByTagName("TD")[n];
+          y = rows[i + 1].getElementsByTagName("TD")[n];
+          /*check if the two rows should switch place,
+          based on the direction, asc or desc:*/
+          if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          /*If a switch has been marked, make the switch
+          and mark that a switch has been done:*/
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          //Each time a switch is done, increase this count by 1:
+          switchcount++;
+        } else {
+          /*If no switching has been done AND the direction is "asc",
+          set the direction to "desc" and run the while loop again.*/
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+
+    function sortNumTable(n) {
+      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+      table = document.getElementById("divTable");
+      switching = true;
+      //Set the sorting direction to ascending:
+      dir = "asc";
+      /*Make a loop that will continue until
+      no switching has been done:*/
+      while (switching) {
+        //start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /*Loop through all table rows (except the
+        first, which contains table headers):*/
+        for (i = 1; i < (rows.length - 1); i++) {
+          //start by saying there should be no switching:
+          shouldSwitch = false;
+          /*Get the two elements you want to compare,
+          one from current row and one from the next:*/
+          x = rows[i].getElementsByTagName("TD")[n];
+          y = rows[i + 1].getElementsByTagName("TD")[n];
+          /*check if the two rows should switch place,
+          based on the direction, asc or desc:*/
+          if (dir == "asc") {
+            if (Number(x.innerHTML) > Number(y.innerHTML)) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (Number(x.innerHTML) < Number(y.innerHTML)) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          /*If a switch has been marked, make the switch
+          and mark that a switch has been done:*/
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          //Each time a switch is done, increase this count by 1:
+          switchcount++;
+        } else {
+          /*If no switching has been done AND the direction is "asc",
+          set the direction to "desc" and run the while loop again.*/
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
     }
 
     function tableonclick(id) {
@@ -188,10 +314,10 @@
 
     function btnSimpanOnClick() {
       if (txtId.value.length > 0) {
-        mRefDbMovies.update({ [txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value , [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value });
+        mRefDbMovies.update({ [txtId.value + "/sinkm"]: 1,[txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value, [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value });
       } else {
         var newPostKey = firebase.database().ref().push().key;
-        mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value , "year": txtYear.value, "genre": txtGenre.value } });
+        mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "sinkm": 1, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value, "year": txtYear.value, "genre": txtGenre.value } });
       }
       document.getElementById("formSearch").style.display = "block";
       document.getElementById("formEdit").style.display = "none";
