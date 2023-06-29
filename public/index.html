@@ -157,7 +157,7 @@
 
     function generateTable(db) {
       text = "<table class='table table-bordered table-striped'>";
-      text += "<tr><th onclick='sortTable(1)'>Name</th><th onclick='sortNumTable(2)'>Year</th><th onclick='sortNumTable(3)'>Duration</th><th onclick='sortNumTable(4)'>Rating</th><th onclick='sortNumTable(5)'>Vote</th><th onclick='sortTable(6)'>Genre</th></tr></thead>";
+      text += "<tr><th onclick='sortTable(0)'>Name</th><th onclick='sortNumTable(1)'>Year</th><th onclick='sortNumTable(2)'>Duration</th><th onclick='sortNumTable(3)'>Rating</th><th onclick='sortNumTable(4)'>Vote</th><th onclick='sortTable(5)'>Genre</th></tr></thead>";
       text += "<tbody id='myTable'>";
       for (x in db) {
         text += "<tr>";
