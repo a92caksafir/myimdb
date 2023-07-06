@@ -130,7 +130,7 @@
 
   <script>
     let mTable = document.getElementById("divTable");
-    let miTableRowsCount = 0;
+    let miTableRowsNum = 0;
     let mFormEdit = document.getElementById("formEdit");
     let mFormSearch = document.getElementById("formSearch");
 
@@ -184,7 +184,7 @@
       console.log(mTable.rows[1].cells[2].childNodes[0]);
       console.log(mTable.rows[1].cells[2].innerHTML);
       mTable.rows[1].cells[2].innerHTML = "tes"
-      mTable.rows[1].cells[2]
+      mTable.rows[1].cells[2];
       // for (var i = 1; i < rowlength; i++) {
       //   newcell = table.rows[i].cells[0].cloneNode(bAddNames);
       //   table.rows[i].appendChild(newcell);
@@ -197,11 +197,11 @@
       text = "<table class='table table-bordered table-striped'>";
       text += "<tr><th onclick='sortTable(2)'>Name</th><th onclick='sortNumTable(3)'>Year</th><th onclick='sortNumTable(4)'>Duration</th><th onclick='sortNumTable(5)'>Rating</th><th onclick='sortNumTable(6)'>Vote</th><th onclick='sortTable(7)'>Genre</th></tr></thead>";
       text += "<tbody id='myTable'>";
-      miTableRowsCount = 0;
+      miTableRowsNum = 0;
       for (x in db) {
         text += "<tr>";
         text += "<td style='display: none;'>" + x + "</td>";
-        text += "<td style='display: none;'>" + miTableRowsCount + "</td>";
+        text += "<td style='display: none;'>" + miTableRowsNum + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].name + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].year + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].duration + "</td>";
@@ -209,7 +209,7 @@
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].vote + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].genre + "</td>";
         text += "</tr>";
-        miTableRowsCount++;
+        miTableRowsNum++;
       }
       text += "</tbody>"
       text += "</table>"
@@ -452,7 +452,7 @@
           document.getElementById('quickstart-sign-in').textContent = 'Sign out ' + user.email;
           document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
           document.getElementById('maincontainer').style.display = "block"
-
+          generateTable(mDbData);
           // ####################mylogic##########################          
 
           mRefDbMovies = firebase.database().ref('/movies');
@@ -500,7 +500,34 @@
             // console.log("child_added");
             mDbData = Object.assign(mDbData, { [snapshot.val().id]: { "id": snapshot.val().id, "name": snapshot.val().name, "duration": snapshot.val().duration, "rating": snapshot.val().rating, "vote": snapshot.val().vote, "year": snapshot.val().year, "genre": snapshot.val().genre } });
             // generateTable(mDbData);
+            var row = mTable.insertRow(-1);
+            var lCellId = row.insertCell(0);
+            var lCellRowsNum = row.insertCell(1);
+            var lCellName = row.insertCell(2);
+            var lCellDuration = row.insertCell(3);
+            var lCellRating = row.insertCell(4);
+            var lCellVote = row.insertCell(5);
+            var lCellYear = row.insertCell(6);
+            var lCellGenre = row.insertCell(7);
+            lCellId.innerHTML = snapshot.val().id;
+            lCellRowsNum.innerHTML = miTableRowsNum;
+            miTableRowsNum++;
+            lCellName.innerHTML = snapshot.val().name;
+            lCellDuration.innerHTML = snapshot.val().duration;
+            lCellRating.innerHTML = snapshot.val().rating;
+            lCellVote.innerHTML = snapshot.val().vote;
+            lCellYear.innerHTML = snapshot.val().year;
+            lCellGenre.innerHTML = snapshot.val().genre;
 
+            lCellId.setAttribute("style", "display: none;");
+            lCellRowsNum.setAttribute("style", "display: none;");
+
+            lCellName.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellDuration.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellRating.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellVote.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellYear.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellGenre.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
           });
 
           // Get the data on child_removed
