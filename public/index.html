@@ -5,22 +5,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MyImdb</title>
-
-  <!-- update the version number as needed -->
   <script defer src="/__/firebase/9.6.10/firebase-app-compat.js"></script>
-
-  <!-- include only the Firebase features as you need -->
   <script defer src="/__/firebase/9.6.10/firebase-auth-compat.js"></script>
   <script defer src="/__/firebase/9.6.10/firebase-database-compat.js"></script>
-  <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
   <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/png" href="firebase.ico">
@@ -75,20 +65,38 @@
         <input class="form-control" id="txtGenre">
       </div>
       <div class="form-group">
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + ',')" id="btnKoma">,</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'action')" id="btnAction">Action</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'adventure')" id="btnAdventure">Adventure</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'comedy')" id="btnComedy">Comedy</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'animation')" id="btnAnimation">Animation</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'family')" id="btnFamily">Family</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'scifi')" id="btnScifi">Scifi</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'fantasy')" id="btnFantasy">Fantasy</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'drama')" id="btnDrama">Drama</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'romance')" id="btnRomance">Romance</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'biography')" id="btnBiography">Biography</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'thriller')" id="btnThriller">Thriller</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'mistery')" id="btnMistery">Mistery</button>
-        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'crime')" id="btnCrime">Crime</button>
+        <label for="weight">Dir:</label>
+        <input class="form-control" id="txtDir">
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + ',')"
+          id="btnKoma">,</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'action')"
+          id="btnAction">Action</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'adventure')"
+          id="btnAdventure">Adventure</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'comedy')"
+          id="btnComedy">Comedy</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'animation')"
+          id="btnAnimation">Animation</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'family')"
+          id="btnFamily">Family</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'scifi')"
+          id="btnScifi">Scifi</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'fantasy')"
+          id="btnFantasy">Fantasy</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'drama')"
+          id="btnDrama">Drama</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'romance')"
+          id="btnRomance">Romance</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'biography')"
+          id="btnBiography">Biography</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'thriller')"
+          id="btnThriller">Thriller</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'mistery')"
+          id="btnMistery">Mistery</button>
+        <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'crime')"
+          id="btnCrime">Crime</button>
       </div>
       <button type="button" class="btn btn-default" onclick="btnSimpanOnClick()" id="btnSimpan">Simpan</button>
       <button type="button" class="btn btn-default" onclick="btnHapusOnClick()" id="btnHapus">Hapus</button>
@@ -114,6 +122,7 @@
 
   <script>
     let mTable = document.getElementById("divTable");
+    let miTableRowsNum = 0;
     let mFormEdit = document.getElementById("formEdit");
     let mFormSearch = document.getElementById("formSearch");
 
@@ -124,6 +133,7 @@
     let txtVote = document.getElementById("txtVote");
     let txtYear = document.getElementById("txtYear");
     let txtGenre = document.getElementById("txtGenre");
+    let txtDir = document.getElementById("txtDir");
 
     let mError = document.getElementById("pError")
     let mDebug = document.getElementById("pDebug")
@@ -155,19 +165,39 @@
       }
     });
 
+    function btnTestOnClick() {
+      alert("test");
+      var rowlength = mTable.rows.length;
+      console.log(rowlength);
+      console.log(mTable.rows[0].cells[0]);
+      console.log(mTable.rows[1].cells[2]);
+      console.log(mTable.rows[0].cells[0].childNodes[0]);
+      console.log(mTable.rows[1].cells[0].childNodes[0]);
+      console.log(mTable.rows[1].cells[1].childNodes[0]);
+      console.log(mTable.rows[1].cells[2].childNodes[0]);
+      console.log(mTable.rows[1].cells[2].innerHTML);
+      mTable.rows[1].cells[2].innerHTML = "tes"
+      mTable.rows[1].cells[2];
+    }
+
     function generateTable(db) {
       text = "<table class='table table-bordered table-striped'>";
-      text += "<tr><th onclick='sortTable(1)'>Name</th><th onclick='sortNumTable(2)'>Year</th><th onclick='sortNumTable(3)'>Duration</th><th onclick='sortNumTable(4)'>Rating</th><th onclick='sortNumTable(5)'>Vote</th><th onclick='sortTable(6)'>Genre</th></tr></thead>";
+      text += "<tr><th onclick='sortTable(2)'>Name</th><th onclick='sortNumTable(3)'>Year</th><th onclick='sortNumTable(4)'>Duration</th><th onclick='sortNumTable(5)'>Rating</th><th onclick='sortNumTable(6)'>Vote</th><th onclick='sortTable(7)'>Genre</th><th onclick='sortTable(8)'>Dir</th></tr></thead>";
       text += "<tbody id='myTable'>";
+      miTableRowsNum = 0;
       for (x in db) {
         text += "<tr>";
+        text += "<td style='display: none;'>" + x + "</td>";
+        text += "<td style='display: none;'>" + miTableRowsNum + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].name + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].year + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].duration + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].rating + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].vote + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].genre + "</td>";
+        text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].dir + "</td>";
         text += "</tr>";
+        miTableRowsNum++;
       }
       text += "</tbody>"
       text += "</table>"
@@ -178,49 +208,31 @@
       var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
       table = document.getElementById("divTable");
       switching = true;
-      //Set the sorting direction to ascending:
       dir = "asc";
-      /*Make a loop that will continue until
-      no switching has been done:*/
       while (switching) {
-        //start by saying: no switching is done:
         switching = false;
         rows = table.rows;
-        /*Loop through all table rows (except the
-        first, which contains table headers):*/
         for (i = 1; i < (rows.length - 1); i++) {
-          //start by saying there should be no switching:
           shouldSwitch = false;
-          /*Get the two elements you want to compare,
-          one from current row and one from the next:*/
           x = rows[i].getElementsByTagName("TD")[n];
           y = rows[i + 1].getElementsByTagName("TD")[n];
-          /*check if the two rows should switch place,
-          based on the direction, asc or desc:*/
           if (dir == "asc") {
             if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-              //if so, mark as a switch and break the loop:
               shouldSwitch = true;
               break;
             }
           } else if (dir == "desc") {
             if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-              //if so, mark as a switch and break the loop:
               shouldSwitch = true;
               break;
             }
           }
         }
         if (shouldSwitch) {
-          /*If a switch has been marked, make the switch
-          and mark that a switch has been done:*/
           rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
           switching = true;
-          //Each time a switch is done, increase this count by 1:
           switchcount++;
         } else {
-          /*If no switching has been done AND the direction is "asc",
-          set the direction to "desc" and run the while loop again.*/
           if (switchcount == 0 && dir == "asc") {
             dir = "desc";
             switching = true;
@@ -233,49 +245,31 @@
       var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
       table = document.getElementById("divTable");
       switching = true;
-      //Set the sorting direction to ascending:
       dir = "asc";
-      /*Make a loop that will continue until
-      no switching has been done:*/
       while (switching) {
-        //start by saying: no switching is done:
         switching = false;
         rows = table.rows;
-        /*Loop through all table rows (except the
-        first, which contains table headers):*/
         for (i = 1; i < (rows.length - 1); i++) {
-          //start by saying there should be no switching:
           shouldSwitch = false;
-          /*Get the two elements you want to compare,
-          one from current row and one from the next:*/
           x = rows[i].getElementsByTagName("TD")[n];
           y = rows[i + 1].getElementsByTagName("TD")[n];
-          /*check if the two rows should switch place,
-          based on the direction, asc or desc:*/
           if (dir == "asc") {
             if (Number(x.innerHTML) > Number(y.innerHTML)) {
-              //if so, mark as a switch and break the loop:
               shouldSwitch = true;
               break;
             }
           } else if (dir == "desc") {
             if (Number(x.innerHTML) < Number(y.innerHTML)) {
-              //if so, mark as a switch and break the loop:
               shouldSwitch = true;
               break;
             }
           }
         }
         if (shouldSwitch) {
-          /*If a switch has been marked, make the switch
-          and mark that a switch has been done:*/
           rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
           switching = true;
-          //Each time a switch is done, increase this count by 1:
           switchcount++;
         } else {
-          /*If no switching has been done AND the direction is "asc",
-          set the direction to "desc" and run the while loop again.*/
           if (switchcount == 0 && dir == "asc") {
             dir = "desc";
             switching = true;
@@ -286,8 +280,6 @@
 
     function tableonclick(id) {
       mFormEdit.style.display = "block";
-      let isExist;
-      isExist = false;
       txtId.value = "";
       txtName.value = "";
       txtDuration.value = "";
@@ -295,29 +287,24 @@
       txtVote.value = "";
       txtYear.value = "";
       txtGenre.value = "";
-      for (var i in mDbData) {
-        if (mDbData[i]["id"] == id) {
-          txtId.value = mDbData[i]["id"];
-          txtName.value = mDbData[i]["name"];
-          txtDuration.value = mDbData[i]["duration"];
-          txtRating.value = mDbData[i]["rating"];
-          txtVote.value = mDbData[i]["vote"];
-          txtYear.value = mDbData[i]["year"];
-          txtGenre.value = mDbData[i]["genre"];
-          isExist = true;
-        }
-      }
-      if (!isExist) mError.innerHTML = "Data tidak ditemukan";
-      mDebug.innerHTML = isExist;
+      txtDir.value = "";
+      txtId.value = mDbData[id]["id"];
+      txtName.value = mDbData[id]["name"];
+      txtDuration.value = mDbData[id]["duration"];
+      txtRating.value = mDbData[id]["rating"];
+      txtVote.value = mDbData[id]["vote"];
+      txtYear.value = mDbData[id]["year"];
+      txtGenre.value = mDbData[id]["genre"];
+      txtDir.value = mDbData[id]["dir"];
       toggleSearch();
     }
 
     function btnSimpanOnClick() {
       if (txtId.value.length > 0) {
-        mRefDbMovies.update({ [txtId.value + "/sinkm"]: 1,[txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value, [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value });
+        mRefDbMovies.update({ [txtId.value + "/sinkm"]: 1, [txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value, [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value, [txtId.value + "/dir"]: txtDir.value });
       } else {
         var newPostKey = firebase.database().ref().push().key;
-        mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "sinkm": 1, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value, "year": txtYear.value, "genre": txtGenre.value } });
+        mRefDbMovies.update({ [newPostKey]: { ["id"]: newPostKey, "sinkm": 1, "name": txtName.value, "duration": txtDuration.value, "rating": txtRating.value, "vote": txtVote.value, "year": txtYear.value, "genre": txtGenre.value, "dir": txtDir.value } });
       }
       document.getElementById("formSearch").style.display = "block";
       document.getElementById("formEdit").style.display = "none";
@@ -340,6 +327,7 @@
       txtVote.value = "";
       txtYear.value = "";
       txtGenre.value = "";
+      txtDir.value = "";
       mFormSearch.style.display = "none";
       mFormEdit.style.display = "block";
     }
@@ -365,82 +353,112 @@
     }
 
     function initApp() {
-      // Result from Redirect auth flow.
       firebase.auth().getRedirectResult().then(function (result) {
         if (result.credential) {
-          // This gives you a Google Access Token. You can use it to access the Google API.
           var token = result.credential.accessToken;
           document.getElementById('quickstart-oauthtoken').textContent = token;
         } else {
           document.getElementById('quickstart-oauthtoken').textContent = 'null';
         }
-        // The signed-in user info.
         var user = result.user;
       }).catch(function (error) {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // The email of the user's account used.
         var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
         if (errorCode === 'auth/account-exists-with-different-credential') {
           alert('You have already signed up with a different auth provider for that email.');
-          // If you are using multiple auth providers on your app you should handle linking
-          // the user's accounts here.
         } else {
           console.error(error);
         }
       });
 
-      // Listening for auth state changes.
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          // User is signed in.
           var displayName = user.displayName;
           document.getElementById('quickstart-sign-in').textContent = 'Sign out ' + user.email;
           document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
           document.getElementById('maincontainer').style.display = "block"
+          generateTable(mDbData);
 
           // ####################mylogic##########################          
 
           mRefDbMovies = firebase.database().ref('/movies');
-
-          // Get the data on child_changed
           mRefDbMovies.on('child_changed', (snapshot) => {
-            for (var i in mDbData) {
-              if (mDbData[i]["id"] == snapshot.val().id) {
-                mDbData[i]["name"] = snapshot.val().name;
-                mDbData[i]["duration"] = snapshot.val().duration;
-                mDbData[i]["rating"] = snapshot.val().rating;
-                mDbData[i]["vote"] = snapshot.val().vote;
-                mDbData[i]["year"] = snapshot.val().year;
-                mDbData[i]["genre"] = snapshot.val().genre;
+            mDbData[snapshot.val().id]["name"] = snapshot.val().name;
+            mDbData[snapshot.val().id]["year"] = snapshot.val().year;
+            mDbData[snapshot.val().id]["duration"] = snapshot.val().duration;
+            mDbData[snapshot.val().id]["rating"] = snapshot.val().rating;
+            mDbData[snapshot.val().id]["vote"] = snapshot.val().vote;
+            mDbData[snapshot.val().id]["genre"] = snapshot.val().genre;
+            mDbData[snapshot.val().id]["dir"] = snapshot.val().dir;
+            var rowlength = mTable.rows.length;
+            for (var i = 1; i < rowlength; i++) {
+              if (mTable.rows[i].cells[0].innerHTML == snapshot.val().id) {
+                mTable.rows[i].cells[2].innerHTML = snapshot.val().name;
+                mTable.rows[i].cells[3].innerHTML = snapshot.val().year;
+                mTable.rows[i].cells[4].innerHTML = snapshot.val().duration;
+                mTable.rows[i].cells[5].innerHTML = snapshot.val().rating;
+                mTable.rows[i].cells[6].innerHTML = snapshot.val().vote;
+                mTable.rows[i].cells[7].innerHTML = snapshot.val().genre;
+                mTable.rows[i].cells[8].innerHTML = snapshot.val().dir;
+                break;
               }
             }
-            generateTable(mDbData);
+
           });
 
-          // Get the data on child_added
           mRefDbMovies.on('child_added', (snapshot) => {
-            console.log("child_added");
-            mDbData = Object.assign(mDbData, { [snapshot.val().id]: { "id": snapshot.val().id, "name": snapshot.val().name, "duration": snapshot.val().duration, "rating": snapshot.val().rating, "vote": snapshot.val().vote, "year": snapshot.val().year, "genre": snapshot.val().genre } });
-            generateTable(mDbData);
+            mDbData = Object.assign(mDbData, { [snapshot.val().id]: { "id": snapshot.val().id, "name": snapshot.val().name, "duration": snapshot.val().duration, "rating": snapshot.val().rating, "vote": snapshot.val().vote, "year": snapshot.val().year, "genre": snapshot.val().genre, "dir": snapshot.val().dir } });
+            var row = mTable.insertRow(-1);
+            var lCellId = row.insertCell(0);
+            var lCellRowsNum = row.insertCell(1);
+            var lCellName = row.insertCell(2);
+            var lCellDuration = row.insertCell(3);
+            var lCellRating = row.insertCell(4);
+            var lCellVote = row.insertCell(5);
+            var lCellYear = row.insertCell(6);
+            var lCellGenre = row.insertCell(7);
+            var lCellDir = row.insertCell(8);
+            lCellId.innerHTML = snapshot.val().id;
+            lCellRowsNum.innerHTML = miTableRowsNum;
+            miTableRowsNum++;
+            lCellName.innerHTML = snapshot.val().name;
+            lCellDuration.innerHTML = snapshot.val().duration;
+            lCellRating.innerHTML = snapshot.val().rating;
+            lCellVote.innerHTML = snapshot.val().vote;
+            lCellYear.innerHTML = snapshot.val().year;
+            lCellGenre.innerHTML = snapshot.val().genre;
+            lCellDir.innerHTML = snapshot.val().dir;
+
+            lCellId.setAttribute("style", "display: none;");
+            lCellRowsNum.setAttribute("style", "display: none;");
+
+            lCellName.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellDuration.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellRating.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellVote.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellYear.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellGenre.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            lCellDir.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
           });
 
-          // Get the data on child_removed
           mRefDbMovies.on('child_removed', (snapshot) => {
-            console.log("child_removed");
             for (var i in mDbData) {
               if (mDbData[i]["id"] == snapshot.val().id) {
                 delete mDbData[i];
               }
             }
-            generateTable(mDbData);
+            var rowlength = mTable.rows.length;
+            for (var i = 1; i < rowlength; i++) {
+              if (mTable.rows[i].cells[0].innerHTML == snapshot.val().id) {
+                mTable.deleteRow(i);
+                break;
+              }
+            }
           });
 
         } else {
-          // User is signed out.
           document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
           document.getElementById('quickstart-account-details').textContent = 'null';
           document.getElementById('quickstart-oauthtoken').textContent = 'null';
@@ -448,9 +466,7 @@
         }
         document.getElementById('quickstart-sign-in').disabled = false;
       });
-
       document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
-
     }
 
     window.onload = function () {
