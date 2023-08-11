@@ -33,6 +33,19 @@
       </div>
       <div class="table-responsive">
         <table class="table table-bordered table-striped" id="divTable">
+        <thead>
+          <tr>
+            <th onclick='sortTable(2)'>Name</th>
+            <th onclick='sortNumTable(3)'>Year</th>
+            <th onclick='sortNumTable(4)'>Duration</th>
+            <th onclick='sortNumTable(5)'>Rating</th>
+            <th onclick='sortNumTable(6)'>Vote</th>
+            <th onclick='sortTable(7)'>Genre</th>
+            <th onclick='sortTable(8)'>Dir</th>
+          </tr>
+          </thead>
+          <tbody id='myTable'>
+          </tbody>
         </table>
       </div>
       <button type="button" class="btn btn-default" onclick="btnTambahOnClick()" id="btnTambah"><span
@@ -122,6 +135,7 @@
 
   <script>
     let mTable = document.getElementById("divTable");
+    let mMyTable = document.getElementById("myTable");
     let miTableRowsNum = 0;
     let mFormEdit = document.getElementById("formEdit");
     let mFormSearch = document.getElementById("formSearch");
@@ -181,9 +195,6 @@
     }
 
     function generateTable(db) {
-      text = "<table class='table table-bordered table-striped'>";
-      text += "<tr><th onclick='sortTable(2)'>Name</th><th onclick='sortNumTable(3)'>Year</th><th onclick='sortNumTable(4)'>Duration</th><th onclick='sortNumTable(5)'>Rating</th><th onclick='sortNumTable(6)'>Vote</th><th onclick='sortTable(7)'>Genre</th><th onclick='sortTable(8)'>Dir</th></tr></thead>";
-      text += "<tbody id='myTable'>";
       miTableRowsNum = 0;
       for (x in db) {
         text += "<tr>";
@@ -199,9 +210,7 @@
         text += "</tr>";
         miTableRowsNum++;
       }
-      text += "</tbody>"
-      text += "</table>"
-      mTable.innerHTML = text;
+      // mMyTable.innerHTML = text;
     }
 
     function sortTable(n) {
@@ -392,16 +401,16 @@
             mDbData[snapshot.val().id]["vote"] = snapshot.val().vote;
             mDbData[snapshot.val().id]["genre"] = snapshot.val().genre;
             mDbData[snapshot.val().id]["dir"] = snapshot.val().dir;
-            var rowlength = mTable.rows.length;
+            var rowlength = mMyTable.rows.length;
             for (var i = 1; i < rowlength; i++) {
-              if (mTable.rows[i].cells[0].innerHTML == snapshot.val().id) {
-                mTable.rows[i].cells[2].innerHTML = snapshot.val().name;
-                mTable.rows[i].cells[3].innerHTML = snapshot.val().year;
-                mTable.rows[i].cells[4].innerHTML = snapshot.val().duration;
-                mTable.rows[i].cells[5].innerHTML = snapshot.val().rating;
-                mTable.rows[i].cells[6].innerHTML = snapshot.val().vote;
-                mTable.rows[i].cells[7].innerHTML = snapshot.val().genre;
-                mTable.rows[i].cells[8].innerHTML = snapshot.val().dir;
+              if (mMyTable.rows[i].cells[0].innerHTML == snapshot.val().id) {
+                mMyTable.rows[i].cells[2].innerHTML = snapshot.val().name;
+                mMyTable.rows[i].cells[3].innerHTML = snapshot.val().year;
+                mMyTable.rows[i].cells[4].innerHTML = snapshot.val().duration;
+                mMyTable.rows[i].cells[5].innerHTML = snapshot.val().rating;
+                mMyTable.rows[i].cells[6].innerHTML = snapshot.val().vote;
+                mMyTable.rows[i].cells[7].innerHTML = snapshot.val().genre;
+                mMyTable.rows[i].cells[8].innerHTML = snapshot.val().dir;
                 break;
               }
             }
@@ -410,7 +419,7 @@
 
           mRefDbMovies.on('child_added', (snapshot) => {
             mDbData = Object.assign(mDbData, { [snapshot.val().id]: { "id": snapshot.val().id, "name": snapshot.val().name, "duration": snapshot.val().duration, "rating": snapshot.val().rating, "vote": snapshot.val().vote, "year": snapshot.val().year, "genre": snapshot.val().genre, "dir": snapshot.val().dir } });
-            var row = mTable.insertRow(-1);
+            var row = mMyTable.insertRow(-1);
             var lCellId = row.insertCell(0);
             var lCellRowsNum = row.insertCell(1);
             var lCellName = row.insertCell(2);
@@ -449,10 +458,10 @@
                 delete mDbData[i];
               }
             }
-            var rowlength = mTable.rows.length;
+            var rowlength = mMyTable.rows.length;
             for (var i = 1; i < rowlength; i++) {
-              if (mTable.rows[i].cells[0].innerHTML == snapshot.val().id) {
-                mTable.deleteRow(i);
+              if (mMyTable.rows[i].cells[0].innerHTML == snapshot.val().id) {
+                mMyTable.deleteRow(i);
                 break;
               }
             }
