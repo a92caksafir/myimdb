@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/png" href="firebase.ico">
 </head>
@@ -27,22 +29,28 @@
   <div class="container" id="maincontainer">
     <h4 onclick=toggleSearch()><span class="glyphicon glyphicon-search"></span>Search</h4>
     <form id="formSearch" class="form-inline">
-      <div class="form-group">
-        <label>Search :</label>
+      <div class="input-group">
         <input class="form-control" id="txtSearch" type="text" placeholder="Search..">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="btnClearInputSearchOnClick()">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
       </div>
+      <button type="button" class="btn btn-default" onclick="btnLoadOnClick()" id="btnLoad" style="float: right;"><span
+          class="glyphicon glyphicon-refresh"></span>Load</button>
       <div class="table-responsive">
         <table class="table table-bordered table-striped" id="divTable">
-        <thead>
-          <tr>
-            <th onclick='sortTable(2)'>Name</th>
-            <th onclick='sortNumTable(3)'>Year</th>
-            <th onclick='sortNumTable(4)'>Duration</th>
-            <th onclick='sortNumTable(5)'>Rating</th>
-            <th onclick='sortNumTable(6)'>Vote</th>
-            <th onclick='sortTable(7)'>Genre</th>
-            <th onclick='sortTable(8)'>Dir</th>
-          </tr>
+          <thead>
+            <tr>
+              <th onclick='sortTable(2)'>Name</th>
+              <th onclick='sortNumTable(3)'>Year</th>
+              <th onclick='sortNumTable(4)'>Duration</th>
+              <th onclick='sortNumTable(5)'>Rating</th>
+              <th onclick='sortNumTable(6)'>Vote</th>
+              <th onclick='sortTable(7)'>Genre</th>
+              <th onclick='sortTable(8)'>Dir</th>
+            </tr>
           </thead>
           <tbody id='myTable'>
           </tbody>
@@ -53,35 +61,49 @@
     </form>
     <form class="form-horizontal" id="formEdit" style="display: none;">
       <input type="hidden" id="txtId">
-      <div class="form-group">
-        <label for="name">Nama:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtName').val('')">Name</button>
+        </div>
         <input class="form-control" id="txtName">
       </div>
-      <div class="form-group">
-        <label for="weight">Year:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtYear').val('')">Year</button>
+        </div>
         <input class="form-control" id="txtYear">
       </div>
-      <div class="form-group">
-        <label for="height">Duration:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtDuration').val('')">Duration</button>
+        </div>
         <input class="form-control" id="txtDuration">
       </div>
-      <div class="form-group">
-        <label for="length">Rating:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtRating').val('')">Rating</button>
+        </div>
         <input class="form-control" id="txtRating">
       </div>
-      <div class="form-group">
-        <label for="weight">Vote:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtVote').val('')">Vote</button>
+        </div>
         <input class="form-control" id="txtVote">
       </div>
-      <div class="form-group">
-        <label for="weight">Genre:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtGenre').val('')">Genre</button>
+        </div>
         <input class="form-control" id="txtGenre">
       </div>
-      <div class="form-group">
-        <label for="weight">Dir:</label>
-        <input class="form-control" id="txtDir">
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtDir').val('')">Dir</button>
+        </div>
+        <input class="form-control" id="txtDir" type="text">
       </div>
-      <div class="form-group">
+      <div class="input-group">
         <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + ',')"
           id="btnKoma">,</button>
         <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'action')"
@@ -134,11 +156,24 @@
   <!-- --------------------------------------------------------------------------------------------- -->
 
   <script>
+    let mHash0 = "c2b7915a35b3b980fd79b41d7ac82867";
+    let mHash1 = "9e313cfb9919f475d666b9779156fa70";
+    let mHash2 = "6f4d285b72c5a34832e2c18f5190169e";
+    let mHash3 = "cdaae71aa4606c71b1fe73a3e60f1031";
+    let mHash4 = "0d6e0f1a4a0f6cf6135b17b4aa682d46";
+    let mHash5 = "a37f1c19f935897ad13ad3734ce0f9b8";
+    let mHash6 = "44ae0bebe2d6e51a927feae415c71d37";
+    let mHash7 = "5ca682fafb5264debfe7bfb93ec7f6d8";
+    let mHash8 = "4a6f18287b39773a36b281a77fb3df80";
+    let mHash9 = "22411604eaabea712ec05b9afdedb4fd";
+
     let mTable = document.getElementById("divTable");
     let mMyTable = document.getElementById("myTable");
     let miTableRowsNum = 0;
     let mFormEdit = document.getElementById("formEdit");
     let mFormSearch = document.getElementById("formSearch");
+
+    let txtSearch = document.getElementById("txtSearch");
 
     let txtId = document.getElementById("txtId");
     let txtName = document.getElementById("txtName");
@@ -179,6 +214,21 @@
       }
     });
 
+    function btnLoadOnClick() {
+      // alert(txtSearch.value);
+      // alert(CryptoJS.MD5(txtSearch.value));
+
+      generateTable({});
+      for (x in mDbData) {
+        PrivilegeCheck(mDbData[x])
+      }
+    }
+
+    function btnClearInputSearchOnClick() {
+      txtSearch.value = "";
+      txtSearch.focus();
+    }
+
     function btnTestOnClick() {
       alert("test");
       var rowlength = mTable.rows.length;
@@ -196,11 +246,12 @@
 
     function generateTable(db) {
       miTableRowsNum = 0;
+      let text = "";
       for (x in db) {
         text += "<tr>";
         text += "<td style='display: none;'>" + x + "</td>";
         text += "<td style='display: none;'>" + miTableRowsNum + "</td>";
-        text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].name + "</td>";
+        text += "<td onclick=copyToClipboard('" + db[x].name + "')>" + db[x].name + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].year + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].duration + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].rating + "</td>";
@@ -210,7 +261,7 @@
         text += "</tr>";
         miTableRowsNum++;
       }
-      // mMyTable.innerHTML = text;
+      mMyTable.innerHTML = text;
     }
 
     function sortTable(n) {
@@ -308,6 +359,11 @@
       toggleSearch();
     }
 
+    function copyToClipboard(lsName) {
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(lsName);
+    }
+
     function btnSimpanOnClick() {
       if (txtId.value.length > 0) {
         mRefDbMovies.update({ [txtId.value + "/sinkm"]: 1, [txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value, [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value, [txtId.value + "/dir"]: txtDir.value });
@@ -361,6 +417,89 @@
       document.getElementById('quickstart-sign-in').disabled = true;
     }
 
+    function GenerateTableRow(snapshotVal) {
+      var row = mMyTable.insertRow(-1);
+      var lCellId = row.insertCell(0);
+      var lCellRowsNum = row.insertCell(1);
+      var lCellName = row.insertCell(2);
+      var lCellYear = row.insertCell(3);
+      var lCellDuration = row.insertCell(4);
+      var lCellRating = row.insertCell(5);
+      var lCellVote = row.insertCell(6);
+      var lCellGenre = row.insertCell(7);
+      var lCellDir = row.insertCell(8);
+      lCellId.innerHTML = snapshotVal.id;
+      lCellRowsNum.innerHTML = miTableRowsNum;
+      miTableRowsNum++;
+      lCellName.innerHTML = snapshotVal.name;
+      lCellDuration.innerHTML = snapshotVal.duration;
+      lCellRating.innerHTML = snapshotVal.rating;
+      lCellVote.innerHTML = snapshotVal.vote;
+      lCellYear.innerHTML = snapshotVal.year;
+      lCellGenre.innerHTML = snapshotVal.genre;
+      lCellDir.innerHTML = snapshotVal.dir;
+
+      lCellId.setAttribute("style", "display: none;");
+      lCellRowsNum.setAttribute("style", "display: none;");
+
+      lCellName.setAttribute("onclick", "copyToClipboard('" + snapshotVal.name + "')");
+      lCellDuration.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
+      lCellRating.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
+      lCellVote.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
+      lCellYear.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
+      lCellGenre.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
+      lCellDir.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
+    }
+
+    function PrivilegeCheck(snapshotVal) {
+      if (txtSearch.value.length > 0) {
+        let lsHash = CryptoJS.MD5(txtSearch.value);
+        if (lsHash == mHash1) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("1")) {
+            GenerateTableRow(snapshotVal);
+          }
+        } else if (lsHash == mHash2) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("2")) {
+            GenerateTableRow(snapshotVal);
+          }
+        } else if (lsHash == mHash3) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("3")) {
+            GenerateTableRow(snapshotVal);
+          }
+        } else if (lsHash == mHash4) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("4")) {
+            GenerateTableRow(snapshotVal);
+          }
+        } else if (lsHash == mHash5) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("5")) {
+            GenerateTableRow(snapshotVal);
+          }
+        } else if (lsHash == mHash6) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("6")) {
+            GenerateTableRow(snapshotVal);
+          }
+        } else if (lsHash == mHash7) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("7")) {
+            GenerateTableRow(snapshotVal);
+          }
+        } else if (lsHash == mHash8) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("8")) {
+            GenerateTableRow(snapshotVal);
+          }
+        } else if (lsHash == mHash9) {
+          GenerateTableRow(snapshotVal);
+        } else {
+          if (!snapshotVal.dir) {
+            GenerateTableRow(snapshotVal);
+          }
+        }
+      } else {
+        if (!snapshotVal.dir) {
+          GenerateTableRow(snapshotVal);
+        }
+      }
+    }
+
     function initApp() {
       firebase.auth().getRedirectResult().then(function (result) {
         if (result.credential) {
@@ -388,7 +527,6 @@
           document.getElementById('quickstart-sign-in').textContent = 'Sign out ' + user.email;
           document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
           document.getElementById('maincontainer').style.display = "block"
-          generateTable(mDbData);
 
           // ####################mylogic##########################          
 
@@ -414,42 +552,11 @@
                 break;
               }
             }
-
           });
 
           mRefDbMovies.on('child_added', (snapshot) => {
             mDbData = Object.assign(mDbData, { [snapshot.val().id]: { "id": snapshot.val().id, "name": snapshot.val().name, "duration": snapshot.val().duration, "rating": snapshot.val().rating, "vote": snapshot.val().vote, "year": snapshot.val().year, "genre": snapshot.val().genre, "dir": snapshot.val().dir } });
-            var row = mMyTable.insertRow(-1);
-            var lCellId = row.insertCell(0);
-            var lCellRowsNum = row.insertCell(1);
-            var lCellName = row.insertCell(2);
-            var lCellYear = row.insertCell(3);
-            var lCellDuration = row.insertCell(4);
-            var lCellRating = row.insertCell(5);
-            var lCellVote = row.insertCell(6);
-            var lCellGenre = row.insertCell(7);
-            var lCellDir = row.insertCell(8);
-            lCellId.innerHTML = snapshot.val().id;
-            lCellRowsNum.innerHTML = miTableRowsNum;
-            miTableRowsNum++;
-            lCellName.innerHTML = snapshot.val().name;
-            lCellDuration.innerHTML = snapshot.val().duration;
-            lCellRating.innerHTML = snapshot.val().rating;
-            lCellVote.innerHTML = snapshot.val().vote;
-            lCellYear.innerHTML = snapshot.val().year;
-            lCellGenre.innerHTML = snapshot.val().genre;
-            lCellDir.innerHTML = snapshot.val().dir;
-
-            lCellId.setAttribute("style", "display: none;");
-            lCellRowsNum.setAttribute("style", "display: none;");
-
-            lCellName.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
-            lCellDuration.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
-            lCellRating.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
-            lCellVote.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
-            lCellYear.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
-            lCellGenre.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
-            lCellDir.setAttribute("onclick", "tableonclick('" + snapshot.val().id + "')");
+            PrivilegeCheck(snapshot.val());
           });
 
           mRefDbMovies.on('child_removed', (snapshot) => {
