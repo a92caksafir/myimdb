@@ -29,13 +29,16 @@
   <div class="container" id="maincontainer">
     <h4 onclick=toggleSearch()><span class="glyphicon glyphicon-search"></span>Search</h4>
     <form id="formSearch" class="form-inline">
-      <div class="form-group">
-        <label>Search :</label>
+      <div class="input-group">
         <input class="form-control" id="txtSearch" type="text" placeholder="Search..">
-        <input class="form-control" id="txtPassword" type="password">
-        <button type="button" class="btn btn-default" onclick="btnLoadOnClick()" id="btnLoad"><span
-            class="glyphicon glyphicon-refresh "></span>Load</button>
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="btnClearInputSearchOnClick()">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
       </div>
+      <button type="button" class="btn btn-default" onclick="btnLoadOnClick()" id="btnLoad" style="float: right;"><span
+          class="glyphicon glyphicon-refresh"></span>Load</button>
       <div class="table-responsive">
         <table class="table table-bordered table-striped" id="divTable">
           <thead>
@@ -58,35 +61,49 @@
     </form>
     <form class="form-horizontal" id="formEdit" style="display: none;">
       <input type="hidden" id="txtId">
-      <div class="form-group">
-        <label for="name">Nama:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtName').val('')">Name</button>
+        </div>
         <input class="form-control" id="txtName">
       </div>
-      <div class="form-group">
-        <label for="weight">Year:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtYear').val('')">Year</button>
+        </div>
         <input class="form-control" id="txtYear">
       </div>
-      <div class="form-group">
-        <label for="height">Duration:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtDuration').val('')">Duration</button>
+        </div>
         <input class="form-control" id="txtDuration">
       </div>
-      <div class="form-group">
-        <label for="length">Rating:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtRating').val('')">Rating</button>
+        </div>
         <input class="form-control" id="txtRating">
       </div>
-      <div class="form-group">
-        <label for="weight">Vote:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtVote').val('')">Vote</button>
+        </div>
         <input class="form-control" id="txtVote">
       </div>
-      <div class="form-group">
-        <label for="weight">Genre:</label>
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtGenre').val('')">Genre</button>
+        </div>
         <input class="form-control" id="txtGenre">
       </div>
-      <div class="form-group">
-        <label for="weight">Dir:</label>
-        <input class="form-control" id="txtDir">
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" onclick="$('#txtDir').val('')">Dir</button>
+        </div>
+        <input class="form-control" id="txtDir" type="text">
       </div>
-      <div class="form-group">
+      <div class="input-group">
         <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + ',')"
           id="btnKoma">,</button>
         <button type="button" class="btn btn-default" onclick="$('#txtGenre').val($('#txtGenre').val() + 'action')"
@@ -156,6 +173,8 @@
     let mFormEdit = document.getElementById("formEdit");
     let mFormSearch = document.getElementById("formSearch");
 
+    let txtSearch = document.getElementById("txtSearch");
+
     let txtId = document.getElementById("txtId");
     let txtName = document.getElementById("txtName");
     let txtDuration = document.getElementById("txtDuration");
@@ -164,7 +183,6 @@
     let txtYear = document.getElementById("txtYear");
     let txtGenre = document.getElementById("txtGenre");
     let txtDir = document.getElementById("txtDir");
-    let txtPassword = document.getElementById("txtPassword");
 
     let mError = document.getElementById("pError")
     let mDebug = document.getElementById("pDebug")
@@ -197,13 +215,18 @@
     });
 
     function btnLoadOnClick() {
-      alert(txtPassword.value);
-      alert(CryptoJS.MD5(txtPassword.value));
+      // alert(txtSearch.value);
+      // alert(CryptoJS.MD5(txtSearch.value));
 
-      // generateTable({});
-      // for (x in mDbData) {
-      //   PrivilegeCheck(mDbData[x])
-      // }
+      generateTable({});
+      for (x in mDbData) {
+        PrivilegeCheck(mDbData[x])
+      }
+    }
+
+    function btnClearInputSearchOnClick() {
+      txtSearch.value = "";
+      txtSearch.focus();
     }
 
     function btnTestOnClick() {
@@ -228,7 +251,7 @@
         text += "<tr>";
         text += "<td style='display: none;'>" + x + "</td>";
         text += "<td style='display: none;'>" + miTableRowsNum + "</td>";
-        text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].name + "</td>";
+        text += "<td onclick=copyToClipboard('" + db[x].name + "')>" + db[x].name + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].year + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].duration + "</td>";
         text += "<td onclick=tableonclick('" + db[x].id + "')>" + db[x].rating + "</td>";
@@ -336,6 +359,11 @@
       toggleSearch();
     }
 
+    function copyToClipboard(lsName) {
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(lsName);
+    }
+
     function btnSimpanOnClick() {
       if (txtId.value.length > 0) {
         mRefDbMovies.update({ [txtId.value + "/sinkm"]: 1, [txtId.value + "/name"]: txtName.value, [txtId.value + "/duration"]: txtDuration.value, [txtId.value + "/rating"]: txtRating.value, [txtId.value + "/vote"]: txtVote.value, [txtId.value + "/year"]: txtYear.value, [txtId.value + "/genre"]: txtGenre.value, [txtId.value + "/dir"]: txtDir.value });
@@ -414,7 +442,7 @@
       lCellId.setAttribute("style", "display: none;");
       lCellRowsNum.setAttribute("style", "display: none;");
 
-      lCellName.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
+      lCellName.setAttribute("onclick", "copyToClipboard('" + snapshotVal.name + "')");
       lCellDuration.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
       lCellRating.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
       lCellVote.setAttribute("onclick", "tableonclick('" + snapshotVal.id + "')");
@@ -424,8 +452,8 @@
     }
 
     function PrivilegeCheck(snapshotVal) {
-      if (txtPassword.value.length > 0) {
-        let lsHash = CryptoJS.MD5(txtPassword.value);
+      if (txtSearch.value.length > 0) {
+        let lsHash = CryptoJS.MD5(txtSearch.value);
         if (lsHash == mHash1) {
           if (snapshotVal.dir && snapshotVal.dir.includes("1")) {
             GenerateTableRow(snapshotVal);
@@ -450,9 +478,17 @@
           if (snapshotVal.dir && snapshotVal.dir.includes("6")) {
             GenerateTableRow(snapshotVal);
           }
-        } else if (lsHash == mHash9) {
+        } else if (lsHash == mHash7) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("7")) {
             GenerateTableRow(snapshotVal);
-        }else {
+          }
+        } else if (lsHash == mHash8) {
+          if (snapshotVal.dir && snapshotVal.dir.includes("8")) {
+            GenerateTableRow(snapshotVal);
+          }
+        } else if (lsHash == mHash9) {
+          GenerateTableRow(snapshotVal);
+        } else {
           if (!snapshotVal.dir) {
             GenerateTableRow(snapshotVal);
           }
@@ -520,7 +556,7 @@
 
           mRefDbMovies.on('child_added', (snapshot) => {
             mDbData = Object.assign(mDbData, { [snapshot.val().id]: { "id": snapshot.val().id, "name": snapshot.val().name, "duration": snapshot.val().duration, "rating": snapshot.val().rating, "vote": snapshot.val().vote, "year": snapshot.val().year, "genre": snapshot.val().genre, "dir": snapshot.val().dir } });
-            // PrivilegeCheck(snapshot.val());
+            PrivilegeCheck(snapshot.val());
           });
 
           mRefDbMovies.on('child_removed', (snapshot) => {
